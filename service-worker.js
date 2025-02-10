@@ -9,10 +9,10 @@ const urlsToCache = [
   'manifest.json',
   'picctra-logo.png',
   'press/hero-bg.jpg'
-  // Add any additional files or asset paths as needed.
+  // Add additional assets as needed.
 ];
 
-// Install event: cache essential assets.
+// Installation: cache essential assets.
 self.addEventListener('install', event => {
   event.waitUntil(
     caches.open(CACHE_NAME)
@@ -21,53 +21,66 @@ self.addEventListener('install', event => {
         return cache.addAll(urlsToCache);
       })
       .catch(error => {
-        console.error('[Service Worker] Error during caching files:', error);
+        console.error('[Service Worker] Error during cache installation:', error);
       })
   );
 });
 
-// Activate event: clean up any old caches.
+// Activation: remove old caches.
 self.addEventListener('activate', event => {
   event.waitUntil(
     caches.keys().then(cacheNames => {
       return Promise.all(
-        cacheNames.filter(cacheName => cacheName !== CACHE_NAME)
-          .map(cacheName => {
+        cacheNames.map(cacheName => {
+          if (cacheName !== CACHE_NAME) {
             console.log('[Service Worker] Deleting old cache:', cacheName);
             return caches.delete(cacheName);
-          })
+          }
+        })
       );
     })
   );
 });
 
-// Fetch event: try cache first, then network.
+// Fetch: differentiate between navigation and other requests.
 self.addEventListener('fetch', event => {
+  // For navigation requests (e.g., loading a page like tool.html),
+  // bypass the custom caching strategy to avoid redirect issues.
+  if (event.request.mode === 'navigate') {
+    event.respondWith(
+      fetch(event.request)
+        .catch(error => {
+          console.error('[Service Worker] Navigation fetch failed:', event.request.url, error);
+          return caches.match('index.html');
+        })
+    );
+    return;
+  }
+  
+  // For other requests (assets, images, CSS, etc.), use a cache-first strategy.
   event.respondWith(
     caches.match(event.request)
       .then(cachedResponse => {
-        // Return cached response if available.
         if (cachedResponse) {
           console.log('[Service Worker] Serving from cache:', event.request.url);
           return cachedResponse;
         }
-        // Otherwise, fetch from network with redirect mode set to 'follow'.
-        return fetch(event.request, { redirect: 'follow' })
+        return fetch(event.request)
           .then(networkResponse => {
-            // Log a warning if a redirected response is encountered.
-            if (networkResponse.redirected && event.request.redirect !== 'follow') {
-              console.warn(`[Service Worker] Warning: Redirected response for ${event.request.url}`);
-            }
-            // Optionally, cache the network response for future visits.
-            return caches.open(CACHE_NAME).then(cache => {
-              // Clone the response stream so that both the cache and the browser receive a copy.
-              cache.put(event.request, networkResponse.clone());
+            // Check if the response is valid.
+            if (!networkResponse || networkResponse.status !== 200 || networkResponse.type === 'opaque') {
               return networkResponse;
-            });
+            }
+            // Clone the response before caching it.
+            const responseClone = networkResponse.clone();
+            caches.open(CACHE_NAME)
+              .then(cache => {
+                cache.put(event.request, responseClone);
+              });
+            return networkResponse;
           })
           .catch(error => {
-            console.error('[Service Worker] Fetch failed for:', event.request.url, error);
-            // Optionally, you could return a fallback response here.
+            console.error('[Service Worker] Fetch failed:', event.request.url, error);
             throw error;
           });
       })
