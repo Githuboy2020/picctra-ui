@@ -4,8 +4,11 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Upload Your Image & Enter Titles - Picctra</title>
+  <!-- Link to the PWA manifest -->
   <link rel="manifest" href="manifest.json">
+  <!-- Link to external CSS -->
   <link rel="stylesheet" href="styles.css">
+  <!-- Google Fonts for modern typography -->
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
 </head>
 <body>
@@ -19,20 +22,45 @@
 
   <section class="upload-section">
     <h1>Upload Your Image & Enter Titles</h1>
-    <p>Provide an image and two titles to generate custom designs.</p>
+    <p id="platform-info">Platform: <strong id="selected-platform"></strong></p>
     <form action="results.html" method="get" enctype="multipart/form-data">
+      <!-- Hidden input to pass the selected platform -->
+      <input type="hidden" name="platform" id="platform-input">
+
       <div class="form-group">
         <label for="image-upload">Upload Your Image</label>
         <input type="file" id="image-upload" name="image" accept="image/*" required>
       </div>
+
       <div class="form-group">
-        <label for="title1">Title 1</label>
-        <input type="text" id="title1" name="title1" placeholder="Enter first title" required>
+        <label for="design-type">Select Design Type</label>
+        <select id="design-type" name="designType" required>
+          <option value="">-- Select Design Type --</option>
+          <option value="Thumbnail">Thumbnail</option>
+          <option value="Short">Short</option>
+          <option value="ThankYouEcard">Thank You Ecards</option>
+          <option value="Birthday">Birthday</option>
+          <option value="Anniversary">Anniversary</option>
+          <option value="Baby">Baby</option>
+          <option value="Congrats">Congrats</option>
+          <option value="Encouragement">Encouragement</option>
+          <option value="Friendship">Friendship</option>
+          <option value="GetWell">Get Well</option>
+          <option value="GoodbyeGoodLuck">Goodbye &amp; Good Luck</option>
+          <option value="GraduationBirthday">Graduation Birthday Card</option>
+        </select>
       </div>
+
       <div class="form-group">
-        <label for="title2">Title 2</label>
-        <input type="text" id="title2" name="title2" placeholder="Enter second title" required>
+        <label for="title1">Title 1 (max 40 characters)</label>
+        <input type="text" id="title1" name="title1" maxlength="40" placeholder="Enter first title" required>
       </div>
+
+      <div class="form-group">
+        <label for="title2">Title 2 (max 30 characters)</label>
+        <input type="text" id="title2" name="title2" maxlength="30" placeholder="Enter second title" required>
+      </div>
+
       <button type="submit" class="cta-button">Generate Designs</button>
     </form>
   </section>
@@ -44,5 +72,20 @@
       <a href="subscription.html">About Us</a>
     </p>
   </footer>
+
+  <script>
+    // Function to get a query parameter value from the URL
+    function getQueryParam(param) {
+      const urlParams = new URLSearchParams(window.location.search);
+      return urlParams.get(param);
+    }
+
+    // On page load, read the 'platform' query parameter and update the page
+    document.addEventListener('DOMContentLoaded', function() {
+      const platform = getQueryParam('platform') || 'Unknown';
+      document.getElementById('selected-platform').textContent = platform;
+      document.getElementById('platform-input').value = platform;
+    });
+  </script>
 </body>
 </html>
