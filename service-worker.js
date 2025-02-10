@@ -9,23 +9,19 @@ const urlsToCache = [
   'manifest.json',
   'picctra-logo.png',
   'press/hero-bg.jpg'
-  // Add additional asset paths as needed.
+  // Add any additional asset paths as needed.
 ];
 
 /**
- * Fix a response that has been flagged as redirected.
- * This reads the response body as a blob and creates a new Response
- * with the same status, statusText, and headers but without the "redirected" flag.
+ * If a response is flagged as redirected, create a new Response from its body
+ * so that the "redirected" flag is cleared.
  */
 function fixRedirectedResponse(response) {
   if (response.redirected) {
     console.log('[Service Worker] Fixing redirected response for:', response.url);
     return response.blob().then(blob => {
-      // Create new headers from the original response.
       const newHeaders = new Headers(response.headers);
-      // Remove the 'location' header (if present) so that the new response doesn't hint at a redirect.
-      newHeaders.delete('location');
-      // Return a new Response constructed from the blob and new headers.
+      newHeaders.delete('location'); // Remove any redirect header.
       return new Response(blob, {
         status: response.status,
         statusText: response.statusText,
@@ -37,11 +33,30 @@ function fixRedirectedResponse(response) {
 }
 
 /**
- * A helper function that performs a fetch with redirect: 'follow' and fixes any redirected response.
+ * For non-navigation requests, fetch with the default redirect behavior.
  */
 function fetchAndFix(request) {
   return fetch(request, { redirect: 'follow' })
     .then(response => fixRedirectedResponse(response));
+}
+
+/**
+ * For navigation requests (full-page loads), handle redirects manually.
+ * We first fetch with redirect: 'manual'. If the response is redirected,
+ * we then fetch the final URL with redirect: 'follow' so that the returned
+ * response does not have redirected: true.
+ */
+function handleNavigationRequest(request) {
+  return fetch(request, { redirect: 'manual' })
+    .then(response => {
+      if (response.redirected || response.type === 'opaqueredirect') {
+        console.log('[Service Worker] Navigation request was redirected. Final URL:', response.url);
+        // Manually follow the redirect by fetching the final URL.
+        return fetch(response.url, { redirect: 'follow' })
+          .then(r => fixRedirectedResponse(r));
+      }
+      return fixRedirectedResponse(response);
+    });
 }
 
 // Installation: Cache essential assets.
@@ -58,7 +73,7 @@ self.addEventListener('install', event => {
   );
 });
 
-// Activation: Clean up any old caches.
+// Activation: Clean up old caches.
 self.addEventListener('activate', event => {
   event.waitUntil(
     caches.keys().then(cacheNames => {
@@ -74,13 +89,12 @@ self.addEventListener('activate', event => {
   );
 });
 
-// Fetch: Use a cache-first strategy for non-navigation requests,
-// and for navigation requests, use a network-first strategy with redirect fixing.
+// Fetch: Handle navigation and non-navigation requests.
 self.addEventListener('fetch', event => {
-  // For navigation requests (full-page loads like tool.html)
   if (event.request.mode === 'navigate') {
+    // For navigation requests, handle redirects manually.
     event.respondWith(
-      fetchAndFix(event.request)
+      handleNavigationRequest(event.request)
         .catch(error => {
           console.error('[Service Worker] Navigation fetch failed:', event.request.url, error);
           return caches.match('index.html');
@@ -88,8 +102,8 @@ self.addEventListener('fetch', event => {
     );
     return;
   }
-  
-  // For non-navigation requests (assets, images, CSS, etc.), use cache-first.
+
+  // For non-navigation requests, use a cache-first strategy.
   event.respondWith(
     caches.match(event.request)
       .then(cachedResponse => {
@@ -98,11 +112,11 @@ self.addEventListener('fetch', event => {
         }
         return fetchAndFix(event.request)
           .then(networkResponse => {
-            // Only cache valid responses.
+            // Only cache successful responses.
             if (!networkResponse || networkResponse.status !== 200 || networkResponse.type === 'opaque') {
               return networkResponse;
             }
-            // Clone the response so that one copy is cached and the other is returned.
+            // Clone the response for caching.
             const responseClone = networkResponse.clone();
             caches.open(CACHE_NAME)
               .then(cache => {
