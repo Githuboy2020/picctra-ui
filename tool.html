@@ -3,153 +3,78 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Select Your Social Media Platform</title>
-  <style>
-    /* Basic Reset */
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-    body {
-      font-family: Arial, sans-serif;
-      background: #f9f9f9;
-      color: #333;
-      line-height: 1.6;
-    }
-    header {
-      background: #fff;
-      padding: 20px;
-      text-align: center;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    }
-    header img {
-      max-width: 150px;
-    }
-    .container {
-      max-width: 1000px;
-      margin: 40px auto;
-      padding: 0 20px;
-    }
-    h1 {
-      text-align: center;
-      margin-bottom: 20px;
-      font-size: 2em;
-    }
-    p.description {
-      text-align: center;
-      margin-bottom: 30px;
-      font-size: 1.1em;
-    }
-    .grid {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 20px;
-    }
-    .platform {
-      background: #fff;
-      padding: 10px;
-      border-radius: 8px;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-      transition: transform 0.2s;
-      cursor: pointer;
-      text-align: center;
-    }
-    .platform:hover {
-      transform: scale(1.05);
-    }
-    .platform img {
-      display: block;
-      width: 128px;
-      height: 128px;
-      object-fit: cover;
-      border-radius: 4px;
-      margin: 0 auto;
-    }
-    /* Footer */
-    footer {
-      background: #333;
-      color: #fff;
-      text-align: center;
-      padding: 20px;
-      font-size: 0.9em;
-      margin-top: 40px;
-    }
-    footer a {
-      color: #fff;
-    }
-  </style>
+  <title>Select Your Social Media Platform - Picctra</title>
+  <link rel="manifest" href="manifest.json">
+  <link rel="stylesheet" href="styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
 </head>
 <body>
-  <!-- Header with Logo -->
   <header>
-    <!-- Replace 'your-logo.png' with your actual logo file -->
-    <img src="your-logo.png" alt="Your Tool Logo">
+    <img src="picctra-logo.png" alt="Picctra Logo" class="logo">
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="subscription.html">About</a>
+    </nav>
   </header>
 
-  <!-- Main Container -->
-  <div class="container">
+  <section class="tool-selection">
     <h1>Select Your Social Media Platform</h1>
-    <p class="description">Choose the design context for your custom design. Click on an icon to proceed.</p>
-
-    <!-- Grid of Social Media Icons -->
-    <div class="grid">
-      <!-- Each icon is a clickable link leading to the Upload & Input Page (upload.html) -->
+    <p>Choose the context for your design by clicking on an icon below.</p>
+    <div class="icon-grid">
+      <!-- Each icon links to the upload page -->
       <a href="upload.html" class="platform">
-        <img src="acid/icons/icon1.png" alt="Platform 1">
+        <img src="assets/icons/Facebook.png" alt="Facebook">
       </a>
       <a href="upload.html" class="platform">
-        <img src="acid/icons/icon2.png" alt="Platform 2">
+        <img src="assets/icons/FacebookMessenger.png" alt="Facebook Messenger">
       </a>
       <a href="upload.html" class="platform">
-        <img src="acid/icons/icon3.png" alt="Platform 3">
+        <img src="assets/icons/Instagram.png" alt="Instagram">
       </a>
       <a href="upload.html" class="platform">
-        <img src="acid/icons/icon4.png" alt="Platform 4">
+        <img src="assets/icons/LinkedIn.png" alt="LinkedIn">
       </a>
       <a href="upload.html" class="platform">
-        <img src="acid/icons/icon5.png" alt="Platform 5">
+        <img src="assets/icons/Pinterest.png" alt="Pinterest">
       </a>
       <a href="upload.html" class="platform">
-        <img src="acid/icons/icon6.png" alt="Platform 6">
+        <img src="assets/icons/Reddit.png" alt="Reddit">
       </a>
       <a href="upload.html" class="platform">
-        <img src="acid/icons/icon7.png" alt="Platform 7">
+        <img src="assets/icons/Snapchat.png" alt="Snapchat">
       </a>
       <a href="upload.html" class="platform">
-        <img src="acid/icons/icon8.png" alt="Platform 8">
+        <img src="assets/icons/Telegram.png" alt="Telegram">
       </a>
       <a href="upload.html" class="platform">
-        <img src="acid/icons/icon9.png" alt="Platform 9">
+        <img src="assets/icons/TikTok.png" alt="TikTok">
       </a>
       <a href="upload.html" class="platform">
-        <img src="acid/icons/icon10.png" alt="Platform 10">
+        <img src="assets/icons/Twitch.png" alt="Twitch">
       </a>
       <a href="upload.html" class="platform">
-        <img src="acid/icons/icon11.png" alt="Platform 11">
+        <img src="assets/icons/WeChat.png" alt="WeChat">
       </a>
       <a href="upload.html" class="platform">
-        <img src="acid/icons/icon12.png" alt="Platform 12">
+        <img src="assets/icons/WhatsApp.png" alt="WhatsApp">
       </a>
       <a href="upload.html" class="platform">
-        <img src="acid/icons/icon13.png" alt="Platform 13">
+        <img src="assets/icons/X.png" alt="X (Twitter)">
       </a>
       <a href="upload.html" class="platform">
-        <img src="acid/icons/icon14.png" alt="Platform 14">
+        <img src="assets/icons/YouTube.png" alt="YouTube">
       </a>
       <a href="upload.html" class="platform">
-        <img src="acid/icons/icon15.png" alt="Platform 15">
+        <img src="assets/icons/Discord.png" alt="Discord">
       </a>
     </div>
-  </div>
+  </section>
 
-  <!-- Footer -->
   <footer>
-    <p>&copy; 2025 Your Tool. All Rights Reserved.</p>
+    <p>&copy; 2025 Picctra. All Rights Reserved.</p>
     <p>
       <a href="privacy.html">Privacy Policy</a> | 
-      <a href="about.html">About Us</a>
+      <a href="subscription.html">About Us</a>
     </p>
   </footer>
 </body>

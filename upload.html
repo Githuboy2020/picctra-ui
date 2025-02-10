@@ -3,121 +3,23 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Upload Your Image & Enter Titles</title>
-  <style>
-    /* Basic Reset */
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    
-    body {
-      font-family: Arial, sans-serif;
-      background: #f9f9f9;
-      color: #333;
-      line-height: 1.6;
-    }
-    
-    header {
-      background: #fff;
-      padding: 20px;
-      text-align: center;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    }
-    
-    header img {
-      max-width: 150px;
-    }
-    
-    .container {
-      max-width: 600px;
-      margin: 40px auto;
-      padding: 0 20px;
-    }
-    
-    h1 {
-      text-align: center;
-      margin-bottom: 20px;
-      font-size: 2em;
-    }
-    
-    p.description {
-      text-align: center;
-      margin-bottom: 30px;
-      font-size: 1.1em;
-    }
-    
-    form {
-      background: #fff;
-      padding: 30px;
-      border-radius: 8px;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    }
-    
-    .form-group {
-      margin-bottom: 20px;
-    }
-    
-    label {
-      display: block;
-      margin-bottom: 8px;
-      font-weight: bold;
-    }
-    
-    input[type="file"],
-    input[type="text"] {
-      width: 100%;
-      padding: 10px;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-    }
-    
-    .cta-button {
-      display: block;
-      width: 100%;
-      padding: 15px;
-      background: #ff6600;
-      color: #fff;
-      font-size: 1.1em;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      margin-top: 20px;
-    }
-    
-    .cta-button:hover {
-      background: #e65c00;
-    }
-    
-    footer {
-      background: #333;
-      color: #fff;
-      text-align: center;
-      padding: 20px;
-      font-size: 0.9em;
-      margin-top: 40px;
-    }
-    
-    footer a {
-      color: #fff;
-    }
-    
-    @media (max-width: 600px) {
-      h1 { font-size: 1.8em; }
-      p.description { font-size: 1em; }
-    }
-  </style>
+  <title>Upload Your Image & Enter Titles - Picctra</title>
+  <link rel="manifest" href="manifest.json">
+  <link rel="stylesheet" href="styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
 </head>
 <body>
-  <!-- Header with Logo -->
   <header>
-    <!-- Replace 'your-logo.png' with your actual logo file -->
-    <img src="your-logo.png" alt="Your Tool Logo">
+    <img src="picctra-logo.png" alt="Picctra Logo" class="logo">
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="subscription.html">About</a>
+    </nav>
   </header>
 
-  <!-- Main Content Container -->
-  <div class="container">
+  <section class="upload-section">
     <h1>Upload Your Image & Enter Titles</h1>
-    <p class="description">Provide the image and two titles. With one click, get 5 custom designs.</p>
-    
-    <!-- Form: Action leads to the Results Page (results.html) -->
+    <p>Provide an image and two titles to generate custom designs.</p>
     <form action="results.html" method="get" enctype="multipart/form-data">
       <div class="form-group">
         <label for="image-upload">Upload Your Image</label>
@@ -133,14 +35,13 @@
       </div>
       <button type="submit" class="cta-button">Generate Designs</button>
     </form>
-  </div>
+  </section>
 
-  <!-- Footer -->
   <footer>
-    <p>&copy; 2025 Your Tool. All Rights Reserved.</p>
+    <p>&copy; 2025 Picctra. All Rights Reserved.</p>
     <p>
       <a href="privacy.html">Privacy Policy</a> | 
-      <a href="about.html">About Us</a>
+      <a href="subscription.html">About Us</a>
     </p>
   </footer>
 </body>

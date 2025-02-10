@@ -3,246 +3,67 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Your Tool - Instant Custom Designs</title>
-  <!-- Link to your PWA manifest -->
+  <title>Picctra - Instant Custom Designs</title>
+  <!-- Link to the PWA manifest -->
   <link rel="manifest" href="manifest.json">
-  <!-- Inline CSS for styling -->
-  <style>
-    /* Basic Reset */
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-
-    body {
-      font-family: Arial, sans-serif;
-      line-height: 1.6;
-      color: #333;
-      background-color: #f9f9f9;
-    }
-
-    a { text-decoration: none; color: inherit; }
-
-    /* Header */
-    header {
-      background: #fff;
-      padding: 20px;
-      text-align: center;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    }
-
-    header img {
-      max-width: 150px;
-    }
-
-    /* Hero Section */
-    .hero {
-      padding: 60px 20px;
-      text-align: center;
-      /* Replace 'hero-bg.jpg' with your actual background image if desired */
-      background: url('hero-bg.jpg') no-repeat center center/cover;
-      color: #fff;
-    }
-
-    .hero h1 {
-      font-size: 2.5em;
-      margin-bottom: 20px;
-    }
-
-    .hero p {
-      font-size: 1.2em;
-      margin-bottom: 30px;
-    }
-
-    .cta-button {
-      background: #ff6600;
-      color: #fff;
-      padding: 15px 30px;
-      font-size: 1.1em;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      transition: background 0.3s ease;
-    }
-
-    .cta-button:hover {
-      background: #e65c00;
-    }
-
-    /* Section Styles */
-    section {
-      padding: 40px 20px;
-      text-align: center;
-    }
-
-    .pain-points, .solution, .social-proof {
-      background: #fff;
-      margin: 20px auto;
-      max-width: 800px;
-      padding: 30px;
-      border-radius: 8px;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    }
-
-    .pain-points h2, .solution h2, .social-proof h2 {
-      margin-bottom: 20px;
-    }
-
-    .pain-points ul {
-      list-style: none;
-    }
-
-    .pain-points li {
-      margin-bottom: 10px;
-      font-size: 1.1em;
-    }
-
-    /* Showcase of 5 design placeholders */
-    .design-showcase {
-      display: flex;
-      justify-content: center;
-      flex-wrap: wrap;
-      gap: 20px;
-      margin-top: 20px;
-    }
-
-    .design-showcase .design {
-      width: 150px;
-      height: 150px;
-      background: #ccc;
-      border-radius: 5px;
-      overflow: hidden;
-    }
-
-    .design-showcase .design img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-
-    /* Final CTA Section */
-    .final-cta {
-      padding: 40px 20px;
-      background: #ff6600;
-      color: #fff;
-      text-align: center;
-    }
-
-    .final-cta h2 {
-      margin-bottom: 20px;
-    }
-
-    /* Footer */
-    footer {
-      background: #333;
-      color: #fff;
-      text-align: center;
-      padding: 20px;
-      font-size: 0.9em;
-    }
-
-    footer a {
-      color: #fff;
-    }
-
-    /* Responsive Adjustments */
-    @media (max-width: 600px) {
-      .hero h1 { font-size: 2em; }
-      .hero p { font-size: 1em; }
-    }
-  </style>
+  <!-- Link to external CSS -->
+  <link rel="stylesheet" href="styles.css">
+  <!-- Google Fonts for modern typography -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
 </head>
 <body>
-  <!-- Header with Logo -->
   <header>
-    <!-- Update this path if your logo is stored in a different folder -->
-    <img src="your-logo.png" alt="Your Tool Logo">
+    <img src="picctra-logo.png" alt="Picctra Logo" class="logo">
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="subscription.html">About</a>
+      <a href="upload.html" class="cta-button">Try It Now</a>
+    </nav>
   </header>
 
-  <!-- Hero Section -->
   <section class="hero">
-    <h1>Stop Tinkering—Focus on What You Love!</h1>
-    <p>
-      Forget endless tweaks—one click gives you 5 custom designs. Upload your image and two titles, and let us handle the rest.
-    </p>
-    <!-- Button leads to the Social Media Selection page -->
-    <button class="cta-button" onclick="location.href='tool.html'">
-      Try It Free – No Credit Card Needed
-    </button>
+    <div class="hero-content">
+      <h1>Transform Your Designs in a Click</h1>
+      <p>Instantly generate custom designs for social media, thumbnails, and more. Fast, modern, and tailored for you.</p>
+      <a href="tool.html" class="cta-button">Get Started</a>
+    </div>
   </section>
 
-  <!-- Pain-Points Section -->
-  <section class="pain-points">
-    <h2>Why Waste Time on Design Tweaks?</h2>
-    <ul>
-      <li>Stop dragging and dropping endless elements.</li>
-      <li>No more re-adjusting colors and layouts.</li>
-      <li>Avoid the headache of complicated design software.</li>
-    </ul>
-  </section>
-
-  <!-- Solution / Showcase Section -->
-  <section class="solution">
-    <h2>Your Vision, Our Design – Instantly</h2>
-    <p>
-      Just tell us which image to include and the text to display. In one click, get 5 stunning, custom designs—no fiddling required.
-    </p>
-    <!-- Placeholder design images; update these paths if your design images are stored elsewhere -->
-    <div class="design-showcase">
-      <div class="design">
-        <img src="design1.jpg" alt="Design Option 1">
+  <section class="features">
+    <h2>Why Choose Picctra?</h2>
+    <div class="feature-list">
+      <div class="feature">
+        <h3>Easy to Use</h3>
+        <p>Generate stunning designs without any design skills.</p>
       </div>
-      <div class="design">
-        <img src="design2.jpg" alt="Design Option 2">
+      <div class="feature">
+        <h3>Modern & Responsive</h3>
+        <p>Looks great on any device – just like a native app.</p>
       </div>
-      <div class="design">
-        <img src="design3.jpg" alt="Design Option 3">
-      </div>
-      <div class="design">
-        <img src="design4.jpg" alt="Design Option 4">
-      </div>
-      <div class="design">
-        <img src="design5.jpg" alt="Design Option 5">
+      <div class="feature">
+        <h3>Instant Results</h3>
+        <p>Get multiple design options with just one click.</p>
       </div>
     </div>
   </section>
 
-  <!-- Social Proof Section -->
-  <section class="social-proof">
-    <h2>Trusted by Designers & Creators</h2>
-    <p>Join thousands who have reclaimed their time and creativity with our tool.</p>
-    <!-- Social Media Icons updated to point to the assets/icons/ folder -->
-    <p>
-      <img src="assets/icons/Facebook.png" alt="Facebook" width="30">
-      <img src="assets/icons/Instagram.png" alt="Instagram" width="30">
-      <img src="assets/icons/TikTok.png" alt="TikTok" width="30">
-      <img src="assets/icons/YouTube.png" alt="YouTube" width="30">
-    </p>
-  </section>
-
-  <!-- Final Call-to-Action Section -->
-  <section class="final-cta">
-    <h2>Focus on your vision. Let us handle the rest.</h2>
-    <button class="cta-button" onclick="location.href='tool.html'">
-      Try It Free – No Credit Card Needed
-    </button>
-  </section>
-
-  <!-- Footer -->
   <footer>
-    <p>&copy; 2025 Your Tool. All Rights Reserved.</p>
+    <p>&copy; 2025 Picctra. All Rights Reserved.</p>
     <p>
       <a href="privacy.html">Privacy Policy</a> | 
-      <a href="about.html">About Us</a>
+      <a href="subscription.html">About Us</a>
     </p>
   </footer>
 
-  <!-- PWA Service Worker Registration (optional) -->
+  <!-- Service Worker Registration -->
   <script>
     if ('serviceWorker' in navigator) {
-      window.addEventListener('load', function() {
-        navigator.serviceWorker.register('service-worker.js').then(function(registration) {
-          console.log('ServiceWorker registration successful with scope: ', registration.scope);
-        }, function(err) {
-          console.log('ServiceWorker registration failed: ', err);
-        });
+      navigator.serviceWorker.register('service-worker.js')
+      .then(function(registration) {
+        console.log('ServiceWorker registration successful with scope: ', registration.scope);
+      })
+      .catch(function(error) {
+        console.log('ServiceWorker registration failed:', error);
       });
     }
   </script>

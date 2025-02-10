@@ -3,151 +3,44 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>About Us & Subscribe</title>
-  <style>
-    /* Basic Reset */
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    
-    body {
-      font-family: Arial, sans-serif;
-      background: #f9f9f9;
-      color: #333;
-      line-height: 1.6;
-    }
-    
-    header {
-      background: #fff;
-      padding: 20px;
-      text-align: center;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    }
-    
-    header img {
-      max-width: 150px;
-    }
-    
-    .container {
-      max-width: 800px;
-      margin: 40px auto;
-      padding: 0 20px;
-    }
-    
-    h1 {
-      text-align: center;
-      margin-bottom: 20px;
-      font-size: 2em;
-    }
-    
-    p.description {
-      text-align: center;
-      margin-bottom: 30px;
-      font-size: 1.1em;
-    }
-    
-    .about-section, .subscription-section {
-      background: #fff;
-      padding: 30px;
-      margin-bottom: 30px;
-      border-radius: 8px;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    }
-    
-    .about-section h2, .subscription-section h2 {
-      margin-bottom: 15px;
-    }
-    
-    .about-section p {
-      margin-bottom: 15px;
-      font-size: 1em;
-    }
-    
-    .subscription-form {
-      display: flex;
-      flex-direction: column;
-      gap: 15px;
-    }
-    
-    .subscription-form input[type="email"] {
-      padding: 10px;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-      font-size: 1em;
-    }
-    
-    .subscription-form button {
-      padding: 15px;
-      background: #ff6600;
-      color: #fff;
-      border: none;
-      border-radius: 5px;
-      font-size: 1.1em;
-      cursor: pointer;
-      transition: background 0.3s ease;
-    }
-    
-    .subscription-form button:hover {
-      background: #e65c00;
-    }
-    
-    footer {
-      background: #333;
-      color: #fff;
-      text-align: center;
-      padding: 20px;
-      font-size: 0.9em;
-      margin-top: 40px;
-    }
-    
-    footer a {
-      color: #fff;
-    }
-    
-    @media (max-width: 600px) {
-      h1 { font-size: 1.8em; }
-      p.description { font-size: 1em; }
-    }
-  </style>
+  <title>About Us & Subscribe - Picctra</title>
+  <link rel="manifest" href="manifest.json">
+  <link rel="stylesheet" href="styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
 </head>
 <body>
-  <!-- Header with Logo -->
   <header>
-    <!-- Replace 'your-logo.png' with your actual logo file -->
-    <img src="your-logo.png" alt="Your Tool Logo">
+    <img src="picctra-logo.png" alt="Picctra Logo" class="logo">
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="upload.html" class="cta-button">Try It Now</a>
+    </nav>
   </header>
-  
-  <!-- Main Container -->
-  <div class="container">
+
+  <section class="subscription-section">
     <h1>About Us & Subscribe</h1>
-    <p class="description">Learn more about our tool and join our community. No credit card required.</p>
+    <p>Learn more about Picctra and join our community for updates and exclusive offers.</p>
     
-    <!-- About Section -->
-    <section class="about-section">
-      <h2>About Us</h2>
-      <p>
-        Our mission is simple: let you focus on what matters most. Tired of spending hours tweaking designs with complex tools? We’re here to change that.
-      </p>
-      <p>
-        With our innovative one‑click solution, you can instantly generate 5 custom designs tailored for your needs—whether it's for YouTube thumbnails, social media covers, or thank you cards. We take care of the design so you can concentrate on your passion.
-      </p>
+    <section class="about">
+      <h2>About Picctra</h2>
+      <p>Our mission is to simplify design. With our one‑click solution, you can instantly generate 5 custom designs tailored for social media, thumbnails, and more. Perfect for college students and the new generation, Picctra is modern, intuitive, and always ready when creativity strikes.</p>
     </section>
     
-    <!-- Subscription Section -->
-    <section class="subscription-section">
+    <section class="subscribe">
       <h2>Subscribe for Updates</h2>
-      <p>Join our community to receive the latest updates, tips, and exclusive offers. We promise to keep your inbox clutter‑free.</p>
-      <form class="subscription-form" action="thankyou.html" method="post">
+      <p>Join our community to receive the latest updates, tips, and exclusive offers. We promise a clutter‑free inbox.</p>
+      <form action="thankyou.html" method="post" class="subscription-form">
         <input type="email" name="email" placeholder="Enter your email address" required>
-        <button type="submit">Subscribe Now</button>
+        <button type="submit" class="cta-button">Subscribe Now</button>
       </form>
     </section>
-  </div>
-  
-  <!-- Footer -->
+  </section>
+
   <footer>
-    <p>&copy; 2025 Your Tool. All Rights Reserved.</p>
+    <p>&copy; 2025 Picctra. All Rights Reserved.</p>
     <p>
       <a href="privacy.html">Privacy Policy</a> | 
-      <a href="about.html">About Us</a>
+      <a href="index.html">Home</a>
     </p>
   </footer>
 </body>
