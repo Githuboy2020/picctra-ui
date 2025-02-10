@@ -4,8 +4,11 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Your Generated Designs - Picctra</title>
+  <!-- Link to the PWA manifest -->
   <link rel="manifest" href="manifest.json">
+  <!-- Link to external CSS -->
   <link rel="stylesheet" href="styles.css">
+  <!-- Google Fonts for modern typography -->
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
 </head>
 <body>
@@ -16,35 +19,22 @@
       <a href="subscription.html">About</a>
     </nav>
   </header>
-
+  
   <section class="results-section">
     <h1>Your Generated Designs</h1>
-    <p>Select your favorite design:</p>
-    <div class="design-grid">
-      <div class="design-item" onclick="selectDesign(this)">
-        <img src="design1.jpg" alt="Design Option 1">
-        <div class="watermark">Watermark</div>
-      </div>
-      <div class="design-item" onclick="selectDesign(this)">
-        <img src="design2.jpg" alt="Design Option 2">
-        <div class="watermark">Watermark</div>
-      </div>
-      <div class="design-item" onclick="selectDesign(this)">
-        <img src="design3.jpg" alt="Design Option 3">
-        <div class="watermark">Watermark</div>
-      </div>
-      <div class="design-item" onclick="selectDesign(this)">
-        <img src="design4.jpg" alt="Design Option 4">
-        <div class="watermark">Watermark</div>
-      </div>
-      <div class="design-item" onclick="selectDesign(this)">
-        <img src="design5.jpg" alt="Design Option 5">
-        <div class="watermark">Watermark</div>
-      </div>
+    <p>Use the arrows below to browse through your designs. Click "Download" to save your favorite design.</p>
+    
+    <div id="carousel-container">
+      <button id="prev-btn" class="arrow-button">&larr;</button>
+      <img id="carousel-image" src="design1.jpg" alt="Design Option 1">
+      <button id="next-btn" class="arrow-button">&rarr;</button>
     </div>
-    <button class="cta-button" onclick="downloadSelected()">Download Selected Design</button>
+    
+    <div id="download-container">
+      <button id="download-btn" class="cta-button">Download This Design</button>
+    </div>
   </section>
-
+  
   <footer>
     <p>&copy; 2025 Picctra. All Rights Reserved.</p>
     <p>
@@ -52,28 +42,55 @@
       <a href="subscription.html">About Us</a>
     </p>
   </footer>
-
+  
   <script>
-    // JavaScript for design selection and download action
-    let selectedDesign = null;
-
-    function selectDesign(element) {
-      document.querySelectorAll('.design-item').forEach(item => {
-        item.classList.remove('selected');
-      });
-      element.classList.add('selected');
-      selectedDesign = element;
+    // Array containing the paths to the five design images
+    const designs = [
+      'design1.jpg',
+      'design2.jpg',
+      'design3.jpg',
+      'design4.jpg',
+      'design5.jpg'
+    ];
+    
+    let currentIndex = 0;
+    const carouselImage = document.getElementById('carousel-image');
+    const prevBtn = document.getElementById('prev-btn');
+    const nextBtn = document.getElementById('next-btn');
+    const downloadBtn = document.getElementById('download-btn');
+    
+    // Function to update the displayed image in the carousel
+    function updateCarousel() {
+      carouselImage.src = designs[currentIndex];
+      carouselImage.alt = 'Design Option ' + (currentIndex + 1);
     }
-
-    function downloadSelected() {
-      if (selectedDesign) {
-        const designAlt = selectedDesign.querySelector('img').alt;
-        alert('Downloading ' + designAlt + '...');
-        // Here you would trigger the actual download action.
-      } else {
-        alert('Please select a design before downloading.');
-      }
-    }
+    
+    // Navigate to the previous design
+    prevBtn.addEventListener('click', function() {
+      currentIndex = (currentIndex === 0) ? designs.length - 1 : currentIndex - 1;
+      updateCarousel();
+    });
+    
+    // Navigate to the next design
+    nextBtn.addEventListener('click', function() {
+      currentIndex = (currentIndex === designs.length - 1) ? 0 : currentIndex + 1;
+      updateCarousel();
+    });
+    
+    // Download the currently displayed design image
+    downloadBtn.addEventListener('click', function() {
+      const currentDesign = designs[currentIndex];
+      // Create a temporary anchor element to trigger the download
+      const link = document.createElement('a');
+      link.href = currentDesign;
+      link.download = currentDesign.split('/').pop();
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    });
+    
+    // Initialize the carousel on page load
+    updateCarousel();
   </script>
 </body>
 </html>
