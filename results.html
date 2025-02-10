@@ -4,11 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Your Generated Designs - Picctra</title>
-  <!-- Link to the PWA manifest -->
   <link rel="manifest" href="manifest.json">
-  <!-- Link to external CSS -->
   <link rel="stylesheet" href="styles.css">
-  <!-- Google Fonts for modern typography -->
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
 </head>
 <body>
@@ -44,7 +41,6 @@
   </footer>
   
   <script>
-    // Array containing the paths to the five design images
     const designs = [
       'design1.jpg',
       'design2.jpg',
@@ -52,35 +48,29 @@
       'design4.jpg',
       'design5.jpg'
     ];
-    
     let currentIndex = 0;
     const carouselImage = document.getElementById('carousel-image');
     const prevBtn = document.getElementById('prev-btn');
     const nextBtn = document.getElementById('next-btn');
     const downloadBtn = document.getElementById('download-btn');
     
-    // Function to update the displayed image in the carousel
     function updateCarousel() {
       carouselImage.src = designs[currentIndex];
       carouselImage.alt = 'Design Option ' + (currentIndex + 1);
     }
     
-    // Navigate to the previous design
     prevBtn.addEventListener('click', function() {
       currentIndex = (currentIndex === 0) ? designs.length - 1 : currentIndex - 1;
       updateCarousel();
     });
     
-    // Navigate to the next design
     nextBtn.addEventListener('click', function() {
       currentIndex = (currentIndex === designs.length - 1) ? 0 : currentIndex + 1;
       updateCarousel();
     });
     
-    // Download the currently displayed design image
     downloadBtn.addEventListener('click', function() {
       const currentDesign = designs[currentIndex];
-      // Create a temporary anchor element to trigger the download
       const link = document.createElement('a');
       link.href = currentDesign;
       link.download = currentDesign.split('/').pop();
@@ -89,7 +79,6 @@
       document.body.removeChild(link);
     });
     
-    // Initialize the carousel on page load
     updateCarousel();
   </script>
 </body>
