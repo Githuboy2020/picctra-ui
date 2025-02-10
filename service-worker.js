@@ -9,8 +9,28 @@ const urlsToCache = [
   'manifest.json',
   'picctra-logo.png',
   'press/hero-bg.jpg'
-  // Add additional assets as needed.
+  // Add any additional assets as needed.
 ];
+
+/**
+ * If a response was redirected, this function creates a new Response 
+ * with the same body, status, statusText, and headers—but not marked as redirected.
+ */
+function fixRedirectedResponse(response) {
+  if (response.redirected) {
+    return response.blob().then(blob => {
+      const newHeaders = new Headers(response.headers);
+      // Optionally, remove the 'location' header if it exists.
+      newHeaders.delete('location');
+      return new Response(blob, {
+        status: response.status,
+        statusText: response.statusText,
+        headers: newHeaders
+      });
+    });
+  }
+  return Promise.resolve(response);
+}
 
 // Installation: cache essential assets.
 self.addEventListener('install', event => {
@@ -26,7 +46,7 @@ self.addEventListener('install', event => {
   );
 });
 
-// Activation: remove old caches.
+// Activation: delete any old caches.
 self.addEventListener('activate', event => {
   event.waitUntil(
     caches.keys().then(cacheNames => {
@@ -42,13 +62,13 @@ self.addEventListener('activate', event => {
   );
 });
 
-// Fetch: differentiate between navigation and other requests.
+// Fetch: use different strategies for navigation requests versus other assets.
 self.addEventListener('fetch', event => {
-  // For navigation requests (e.g., loading a page like tool.html),
-  // bypass the custom caching strategy to avoid redirect issues.
+  // For navigation requests (e.g., full HTML pages like tool.html)
   if (event.request.mode === 'navigate') {
     event.respondWith(
-      fetch(event.request)
+      fetch(event.request, { redirect: 'follow' })
+        .then(response => fixRedirectedResponse(response))
         .catch(error => {
           console.error('[Service Worker] Navigation fetch failed:', event.request.url, error);
           return caches.match('index.html');
@@ -56,31 +76,33 @@ self.addEventListener('fetch', event => {
     );
     return;
   }
-  
-  // For other requests (assets, images, CSS, etc.), use a cache-first strategy.
+
+  // For non-navigation requests (assets, images, CSS, etc.), use a cache-first strategy.
   event.respondWith(
     caches.match(event.request)
       .then(cachedResponse => {
         if (cachedResponse) {
-          console.log('[Service Worker] Serving from cache:', event.request.url);
-          return cachedResponse;
+          // If the cached response was redirected, fix it before returning.
+          return fixRedirectedResponse(cachedResponse);
         }
-        return fetch(event.request)
+        return fetch(event.request, { redirect: 'follow' })
           .then(networkResponse => {
-            // Check if the response is valid.
-            if (!networkResponse || networkResponse.status !== 200 || networkResponse.type === 'opaque') {
-              return networkResponse;
-            }
-            // Clone the response before caching it.
-            const responseClone = networkResponse.clone();
-            caches.open(CACHE_NAME)
-              .then(cache => {
-                cache.put(event.request, responseClone);
-              });
-            return networkResponse;
+            return fixRedirectedResponse(networkResponse).then(fixedResponse => {
+              // Only cache valid responses.
+              if (!fixedResponse || fixedResponse.status !== 200 || fixedResponse.type === 'opaque') {
+                return fixedResponse;
+              }
+              // Clone the fixed response so we can add one copy to the cache.
+              const responseClone = fixedResponse.clone();
+              caches.open(CACHE_NAME)
+                .then(cache => {
+                  cache.put(event.request, responseClone);
+                });
+              return fixedResponse;
+            });
           })
           .catch(error => {
-            console.error('[Service Worker] Fetch failed:', event.request.url, error);
+            console.error('[Service Worker] Fetch failed for:', event.request.url, error);
             throw error;
           });
       })
