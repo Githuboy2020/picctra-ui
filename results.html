@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Your Generated Designs</title>
+  <style>
+    /* Basic Reset */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    
+    body {
+      font-family: Arial, sans-serif;
+      background: #f9f9f9;
+      color: #333;
+      line-height: 1.6;
+    }
+    
+    header {
+      background: #fff;
+      padding: 20px;
+      text-align: center;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    
+    header img {
+      max-width: 150px;
+    }
+    
+    .container {
+      max-width: 1000px;
+      margin: 40px auto;
+      padding: 0 20px;
+      text-align: center;
+    }
+    
+    h1 {
+      margin-bottom: 20px;
+      font-size: 2em;
+    }
+    
+    p.description {
+      margin-bottom: 30px;
+      font-size: 1.1em;
+    }
+    
+    .design-grid {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+    }
+    
+    .design-item {
+      position: relative;
+      width: 200px;
+      height: 200px;
+      cursor: pointer;
+      border: 3px solid transparent;
+      border-radius: 8px;
+      overflow: hidden;
+      transition: border-color 0.3s;
+    }
+    
+    .design-item.selected {
+      border-color: #ff6600;
+    }
+    
+    .design-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    
+    .watermark {
+      position: absolute;
+      bottom: 5px;
+      right: 5px;
+      background: rgba(0, 0, 0, 0.5);
+      color: #fff;
+      padding: 2px 5px;
+      font-size: 0.9em;
+      border-radius: 3px;
+    }
+    
+    .download-button {
+      margin-top: 30px;
+      padding: 15px 30px;
+      background: #ff6600;
+      color: #fff;
+      font-size: 1.1em;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+    
+    .download-button:hover {
+      background: #e65c00;
+    }
+    
+    footer {
+      background: #333;
+      color: #fff;
+      text-align: center;
+      padding: 20px;
+      font-size: 0.9em;
+      margin-top: 40px;
+    }
+    
+    footer a {
+      color: #fff;
+    }
+  </style>
+</head>
+<body>
+  <!-- Header with Logo -->
+  <header>
+    <!-- Replace 'your-logo.png' with your actual logo file -->
+    <img src="your-logo.png" alt="Your Tool Logo">
+  </header>
+  
+  <!-- Main Container -->
+  <div class="container">
+    <h1>Your Generated Designs</h1>
+    <p class="description">Select your favorite design below:</p>
+    
+    <!-- Grid of Design Options -->
+    <div class="design-grid">
+      <div class="design-item" onclick="selectDesign(this)">
+        <img src="design1.jpg" alt="Design Option 1">
+        <div class="watermark">Watermark</div>
+      </div>
+      <div class="design-item" onclick="selectDesign(this)">
+        <img src="design2.jpg" alt="Design Option 2">
+        <div class="watermark">Watermark</div>
+      </div>
+      <div class="design-item" onclick="selectDesign(this)">
+        <img src="design3.jpg" alt="Design Option 3">
+        <div class="watermark">Watermark</div>
+      </div>
+      <div class="design-item" onclick="selectDesign(this)">
+        <img src="design4.jpg" alt="Design Option 4">
+        <div class="watermark">Watermark</div>
+      </div>
+      <div class="design-item" onclick="selectDesign(this)">
+        <img src="design5.jpg" alt="Design Option 5">
+        <div class="watermark">Watermark</div>
+      </div>
+    </div>
+    
+    <!-- Download/Select Button -->
+    <button class="download-button" onclick="downloadSelected()">Download Selected Design</button>
+  </div>
+  
+  <!-- Footer -->
+  <footer>
+    <p>&copy; 2025 Your Tool. All Rights Reserved.</p>
+    <p>
+      <a href="privacy.html">Privacy Policy</a> | 
+      <a href="about.html">About Us</a>
+    </p>
+  </footer>
+  
+  <script>
+    // JavaScript to handle design selection
+    let selectedDesign = null;
+    
+    function selectDesign(element) {
+      // Deselect any previously selected design
+      const designs = document.querySelectorAll('.design-item');
+      designs.forEach(item => item.classList.remove('selected'));
+      
+      // Mark the clicked design as selected
+      element.classList.add('selected');
+      selectedDesign = element;
+    }
+    
+    function downloadSelected() {
+      if (selectedDesign) {
+        // For demonstration, simply alert the selected design's name.
+        const designAlt = selectedDesign.querySelector('img').alt;
+        alert('Downloading ' + designAlt + '...');
+        // In a production scenario, you would trigger the actual download here.
+      } else {
+        alert('Please select a design before downloading.');
+      }
+    }
+  </script>
+</body>
+</html>
