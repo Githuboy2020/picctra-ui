@@ -9,19 +9,23 @@ const urlsToCache = [
   'manifest.json',
   'picctra-logo.png',
   'press/hero-bg.jpg'
-  // Add any additional assets as needed.
+  // Add additional asset paths as needed.
 ];
 
 /**
- * If a response was redirected, this function creates a new Response 
- * with the same body, status, statusText, and headers—but not marked as redirected.
+ * Fix a response that has been flagged as redirected.
+ * This reads the response body as a blob and creates a new Response
+ * with the same status, statusText, and headers but without the "redirected" flag.
  */
 function fixRedirectedResponse(response) {
   if (response.redirected) {
+    console.log('[Service Worker] Fixing redirected response for:', response.url);
     return response.blob().then(blob => {
+      // Create new headers from the original response.
       const newHeaders = new Headers(response.headers);
-      // Optionally, remove the 'location' header if it exists.
+      // Remove the 'location' header (if present) so that the new response doesn't hint at a redirect.
       newHeaders.delete('location');
+      // Return a new Response constructed from the blob and new headers.
       return new Response(blob, {
         status: response.status,
         statusText: response.statusText,
@@ -32,7 +36,15 @@ function fixRedirectedResponse(response) {
   return Promise.resolve(response);
 }
 
-// Installation: cache essential assets.
+/**
+ * A helper function that performs a fetch with redirect: 'follow' and fixes any redirected response.
+ */
+function fetchAndFix(request) {
+  return fetch(request, { redirect: 'follow' })
+    .then(response => fixRedirectedResponse(response));
+}
+
+// Installation: Cache essential assets.
 self.addEventListener('install', event => {
   event.waitUntil(
     caches.open(CACHE_NAME)
@@ -46,7 +58,7 @@ self.addEventListener('install', event => {
   );
 });
 
-// Activation: delete any old caches.
+// Activation: Clean up any old caches.
 self.addEventListener('activate', event => {
   event.waitUntil(
     caches.keys().then(cacheNames => {
@@ -62,13 +74,13 @@ self.addEventListener('activate', event => {
   );
 });
 
-// Fetch: use different strategies for navigation requests versus other assets.
+// Fetch: Use a cache-first strategy for non-navigation requests,
+// and for navigation requests, use a network-first strategy with redirect fixing.
 self.addEventListener('fetch', event => {
-  // For navigation requests (e.g., full HTML pages like tool.html)
+  // For navigation requests (full-page loads like tool.html)
   if (event.request.mode === 'navigate') {
     event.respondWith(
-      fetch(event.request, { redirect: 'follow' })
-        .then(response => fixRedirectedResponse(response))
+      fetchAndFix(event.request)
         .catch(error => {
           console.error('[Service Worker] Navigation fetch failed:', event.request.url, error);
           return caches.match('index.html');
@@ -76,30 +88,27 @@ self.addEventListener('fetch', event => {
     );
     return;
   }
-
-  // For non-navigation requests (assets, images, CSS, etc.), use a cache-first strategy.
+  
+  // For non-navigation requests (assets, images, CSS, etc.), use cache-first.
   event.respondWith(
     caches.match(event.request)
       .then(cachedResponse => {
         if (cachedResponse) {
-          // If the cached response was redirected, fix it before returning.
           return fixRedirectedResponse(cachedResponse);
         }
-        return fetch(event.request, { redirect: 'follow' })
+        return fetchAndFix(event.request)
           .then(networkResponse => {
-            return fixRedirectedResponse(networkResponse).then(fixedResponse => {
-              // Only cache valid responses.
-              if (!fixedResponse || fixedResponse.status !== 200 || fixedResponse.type === 'opaque') {
-                return fixedResponse;
-              }
-              // Clone the fixed response so we can add one copy to the cache.
-              const responseClone = fixedResponse.clone();
-              caches.open(CACHE_NAME)
-                .then(cache => {
-                  cache.put(event.request, responseClone);
-                });
-              return fixedResponse;
-            });
+            // Only cache valid responses.
+            if (!networkResponse || networkResponse.status !== 200 || networkResponse.type === 'opaque') {
+              return networkResponse;
+            }
+            // Clone the response so that one copy is cached and the other is returned.
+            const responseClone = networkResponse.clone();
+            caches.open(CACHE_NAME)
+              .then(cache => {
+                cache.put(event.request, responseClone);
+              });
+            return networkResponse;
           })
           .catch(error => {
             console.error('[Service Worker] Fetch failed for:', event.request.url, error);
